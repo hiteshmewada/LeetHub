@@ -11,22 +11,21 @@ class Solution
     string newIPAdd (string s)
     {
         //code here.
-        string ans;
+        bool ok=true;
         for(int i=0;i<s.size();i++){
-            string p;
-            while(i<s.size() and s[i]!='.') {
-                p+=s[i];
-                i++;
-            }
-            int j=0;
-                while(j<p.size() and p[j]=='0') j++;
-                if(j>=p.size()) ans+='0';
-                else {
-                    while(j<p.size()) ans+=p[j++];
+            if(s[i]=='.') ok=true;
+            else{
+                if(s[i]=='0'){
+                    if(i==s.size()-1) break;
+                    if(ok and s[i+1]!='.'){
+                        s.erase(i,1);
+                        i--;
+                    }
                 }
-            if(i<s.size()) ans+='.';
+                else ok=false;
+            }
         }
-        return ans;
+        return s;
     }
 };
 
