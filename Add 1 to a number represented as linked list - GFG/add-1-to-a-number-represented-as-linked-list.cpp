@@ -48,38 +48,39 @@ class Solution
     public:
     Node* addOne(Node *head) 
     {
-        // Your Code here
-        // return head of list after adding one
-        Node* cur=head,*pre=NULL;
+        Node *cur=head,*pre=NULL;
         while(cur!=NULL){
-            Node* temp=cur->next;
+            Node *temp=cur->next;
             cur->next=pre;
             pre=cur;
             cur=temp;
         }
-        int cy=0;
         cur=pre;
         cur->data=cur->data+1;
+        
+        int cy=0;
         while(cur->next!=NULL){
             int x=cur->data+cy;
-            cur->data=x%10;
+            cur->data=(x)%10;
             cy=x/10;
             cur=cur->next;
         }
         int x=cur->data+cy;
-        cur->data=(cur->data+cy)%10;
-        x=x/10;
-        if(x!=0) cur->next=new Node(x);
+            cur->data=(x)%10;
+            cy=x/10;
+        if(cy>0) cur->next=new Node(cy);
         cur=pre;
-        Node *last=NULL;
+        Node *fut=NULL;
         while(cur!=NULL){
             Node *temp=cur->next;
-            cur->next=last;
-            last=cur;
+            cur->next=fut;
+            fut=cur;
             cur=temp;
         }
-        head=last;
+        head=fut;
         return head;
+        // Your Code here
+        // return head of list after adding one
     }
 };
 
