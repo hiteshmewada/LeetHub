@@ -9,12 +9,8 @@ class Solution {
   public:
     string movOnGrid(int r, int c) {
         // code here
-        c=c^r;
-        r^=c;
-        c^=r;
-        r=(r-1)&3;
-        c=(c-1)%7;
-        if(r==c) return "ARYA";
+        // x->x+3 y->y+6
+        if(((r-1)%7)==((c-1)%4)) return "ARYA";
         return "JON";
     }
 };
