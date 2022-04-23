@@ -10,7 +10,16 @@ class Solution{
     int searchInsertK(vector<int>Arr, int N, int k)
     {
         // code here
-        return lower_bound(Arr.begin(),Arr.end(),k)-Arr.begin();
+        int low=0,high=N,mid;
+        while(low<=high){
+            mid=low+(high-low)/2;
+            if(Arr[mid]==k) return mid;
+            else if(Arr[mid]>k) high=mid-1;
+            else low=mid+1;
+        }
+        if(Arr[mid]>k and Arr[mid-1]<k) return mid;
+        else if(Arr[mid]<k and Arr[mid+1]>k) return mid+1;
+        return mid;
     }
 };
 
