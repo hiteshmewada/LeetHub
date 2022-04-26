@@ -23,7 +23,7 @@ public:
         for(auto x:degree){
             if(x%2) ans++;
         }
-        if(ans==0 or ans==2) return 1;
+        if(ans==2) return 1;
         return 0;
     }
 };
