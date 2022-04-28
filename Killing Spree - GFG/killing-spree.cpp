@@ -9,15 +9,13 @@ public:
     long long int killinSpree(long long int n)
     {
         // Code Here
-        long long count = 0,cost = 1;
-       
-       while(n-cost*cost>=0){
-           n = n-cost*cost;
-           cost++;
-           count++;
-       }
-       
-       return count;
+        long long ans=0,i=1;
+        while(n-i*i>=0){
+            n-=i*i;
+            i++;
+            ans++;
+        }
+        return ans;
     }
 };
 
