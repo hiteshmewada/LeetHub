@@ -5,48 +5,25 @@ using namespace std;
  // } Driver Code Ends
 class Solution {
 public:
-	vector<int>SolveQueris(string str, vector<vector<int>>Query){
-	    // Code here
-	    int i,j,l,r,ans,count[str.size()][26];
-    vector<int> res;
-    for(i=0;i<str.size();i++)
-    {
-        for(j=0;j<26;j++)
-        count[i][j]=0;
-    }
-    for(i=0;i<str.size();i++)
-    {
-        count[i][str[i]-97]=1;
-    }
-     for(i=1;i<str.size();i++)
-    {
-        for(j=0;j<26;j++)
-        count[i][j]+=count[i-1][j];
-    }
-    for(i=0;i<Query.size();i++)
-    {
-        ans=0;
-        l=Query[i][0]-1;
-        r=Query[i][1]-1;
-        if(l==0)
-        {
-            for(j=0;j<26;j++)
-            {
-                if(count[r][j]>0)
-                ans++;
-            }
-        }
-        else
-        {
-            for(j=0;j<26;j++)
-            {
-                if(count[r][j]-count[l-1][j]>0)
-                ans++;
-            }
-        }
-        res.push_back(ans);
-    }
-    return res;
+	vector<int>SolveQueris(string s, vector<vector<int>>q){
+	    // Code 
+	    vector<int>v[26];
+	    for(int i=0;i<s.size();i++)
+	        v[s[i]-'a'].push_back(i+1);
+	   int j=0;
+	   vector<int>ans;
+	   while(j<q.size()){
+	       int l=q[j][0],r=q[j][1],c=0;
+	       for(int i=0;i<26;i++){
+	           int x=lower_bound(v[i].begin(),v[i].end(),l)-v[i].begin();
+	           if(x==v[i].size()) continue;
+	           x=v[i][x];
+	           if(x>=l and x<=r) c++;
+	       }
+	       ans.push_back(c);
+	       j++;
+	   }
+	   return ans;
 	}
 };
 
