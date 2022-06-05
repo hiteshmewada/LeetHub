@@ -1,24 +1,16 @@
 class Solution {
 public:
-    
-    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
-        int gap=ceil((float)(n+m)/2),j;
-        while(gap>0){
-            int i=0,j=gap;
-            while(j<(n+m)){
-                if(j<m and nums1[i]>nums1[j]) swap(nums1[i],nums1[j]);
-                else if(j>=m and i<m and nums1[i]>nums2[j-m])
-                    swap(nums1[i],nums2[j-m]);
-                else if(j>=m and i>=m and nums2[i-m]>nums2[j-m])
-                    swap(nums2[i-m],nums2[j-m]);
-                i++;j++;
-            }
-            if(gap==1) gap=0;
-            else{
-                gap=ceil((float)gap/2);
-            }
+    void merge(vector<int>& v1, int m, vector<int>& v2, int n) {
+        int i=m-1,j=n-1,ind=(n+m)-1;
+        while(j>=0){
+            v1[ind--]=i>=0 and v1[i]>v2[j]?v1[i--]:v2[j--];
         }
-        j=0;
-        for(int i=m;i<(n+m);i++) nums1[i]=nums2[j++];
+//         while(i>=m and j>=n){
+//             if(v1[i]>v2[j]) {
+//                 v1[ind--]=v1[i--];
+//             }
+//             else v1[ind--]=v2[j--];
+//         }
+        
     }
 };
