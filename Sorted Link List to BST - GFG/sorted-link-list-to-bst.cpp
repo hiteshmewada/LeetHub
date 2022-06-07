@@ -74,9 +74,7 @@ class Solution{
   public:
   TNode* bst(vector<int>&v,int i,int j){
       if(i>j) return NULL;
-      int mid;
-      if((i+j)%2) mid=(i+j+1)/2;
-      else mid=(i+j)/2;
+      int mid=(i+j+1)/2;
     //   head->data=v[mid];
       TNode* node=new TNode(v[mid]);
       node->left=bst(v,i,mid-1);
@@ -86,12 +84,11 @@ class Solution{
     TNode* sortedListToBST(LNode *head) {
         //code here
         vector<int>v;
-        LNode* temp=head;
-        while(temp!=NULL){
-            v.push_back(temp->data);
-            temp=temp->next;
+        while(head!=NULL){
+            v.push_back(head->data);
+            head=head->next;
         }
-        // struct TNode* node;
+        struct TNode* node;
         return bst(v,0,v.size()-1);
     }
 };
