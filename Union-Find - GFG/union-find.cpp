@@ -26,8 +26,8 @@ class Solution
         }
         else if(rank1[a]>rank1[b]) par[b]=a;
         else{
-            par[a]=b;
-            rank1[b]++;
+            par[b]=a;
+            rank1[a]++;
         }
     }
     
