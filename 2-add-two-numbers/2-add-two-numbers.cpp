@@ -10,27 +10,14 @@
  */
 class Solution {
 public:
+    ListNode* helper(ListNode* l1, ListNode* l2, int cy){
+        if(!l1 and !l2 and !cy) return NULL;
+        int sum=(l1?l1->val:0)+(l2?l2->val:0)+cy;
+        ListNode *cur=new ListNode(sum%10);
+        cur->next=helper(l1?l1->next:NULL,l2?l2->next:NULL,sum/10);
+        return cur;
+    }
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode *head=new ListNode(0);
-        ListNode *temp=head;
-        // return temp;
-        int cy=0;
-        while(l1 or l2 or cy){
-            int sum=0;
-            if(l1){
-                sum+=l1->val;
-                l1=l1->next;
-            }
-            if(l2) {
-                sum+=l2->val;
-                l2=l2->next;
-            }
-            if(cy) sum+=cy;
-            cy=sum/10;
-            ListNode *node=new ListNode(sum%10);
-            temp->next=node;
-            temp=temp->next;
-        }
-        return head->next;
+           return helper(l1,l2,0);
     }
 };
