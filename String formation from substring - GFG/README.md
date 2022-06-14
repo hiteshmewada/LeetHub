@@ -1,5 +1,5 @@
 # String formation from substring
-## Medium 
+##  Medium 
 <div class="problem-statement">
                 <p></p><p><span style="font-size:18px">Given a string s, the task is to check if it can be constructed by taking a substring of it and appending multiple copies of the substring together.&nbsp; </span></p>
 
