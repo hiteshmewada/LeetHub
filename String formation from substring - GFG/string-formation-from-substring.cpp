@@ -7,32 +7,36 @@ using namespace std;
 //User function template for C++
 class Solution{
 public:	
-		
+	int gcd(int a,int b){
+	   // if(b==0) return a;
+	   // return (b,b%a);
+	   // return (b==0)?a:gcd(b,b%a);
+	   return (b==0)?a:gcd(b,a%b);
+	}
 	int isRepeat(string s)
 	{
 	    // Your code goes here
-	    int n=s.size();
-   for(int i=0;i<n;i++)
-   {
-       string subString=s.substr(0,i);
-       int subSize=subString.size();
-       if(n!=0 && subSize!=0 && n%subSize==0)
-       {
-           int count=0;
-           int checkSize=n/subSize;
-           string test="";
-           while(count<checkSize)
-           {
-               test+=subString;
-               if(test==s)
-               {
-                   return 1;
-               }
-               count++;
-           }
-       }
-   }
-   return 0;
+	    unordered_map<char,int>mp;
+	    int sum=0;
+	    for(int i=0;i<s.size();i++) mp[s[i]]++;
+	    int hcf=mp[s[0]];
+	    for(auto x:mp) {
+	        hcf=gcd(hcf,x.second);
+	        sum+=x.second;
+	    }
+	    if(hcf==1)
+         return 0;
+         hcf=sum/hcf;
+         string  temp;
+            int i;
+            for(i=0;i<hcf;i++) temp+=s[i];
+            int k=0;
+            for(i;i<s.size();i++){
+                if(s[i]!=s[k]) return 0;
+                k++;
+                k%=hcf;
+            }
+            return 1;
 	}
 };
 
