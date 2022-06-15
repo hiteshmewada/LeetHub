@@ -11,15 +11,31 @@
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode *dummy=new ListNode();// dummy node is used for edge case when head->next->next gives wrong values where n==len of linked list.
-        dummy->next=head;
-        ListNode *slow=dummy,*fast=dummy;
-        for(int i=0;i<n;i++) fast=fast->next;
-        while(fast->next){
-            fast=fast->next;
-            slow=slow->next;
+        ListNode* node=head;
+        int len=0;
+        while(node){
+            len++;
+            node=node->next;
         }
-        slow->next=slow->next->next;
-        return dummy->next;
+        node=head;
+        len-=n;
+        if(len==0){
+            
+            if(!head) return head;
+            // ListNode  *cur=head->next;
+            // if(head and head->next  )
+            // cur->next=head->next;
+            // else return NULL;
+            // delete head;
+            head=head->next;
+            return head;
+        }
+        for(int i=0;i<len-1;i++){
+            
+            node=node->next;
+            
+        }
+        node->next=node->next->next;
+        return head;
     }
 };
