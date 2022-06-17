@@ -15,8 +15,9 @@ public:
             slow=slow->next;
             fast=fast->next->next;
             if(slow==fast){
-                while(slow!=entry) {
-                    slow=slow->next;entry=entry->next;
+                fast=head;
+                while(slow!=fast) {
+                    slow=slow->next;fast=fast->next;
                 }
                 return slow;
             }
