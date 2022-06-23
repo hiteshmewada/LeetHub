@@ -19,7 +19,7 @@ class Solution{
 	    }
 	    if(dp.find({i,c})!=dp.end()) return dp[{i,c}];
 	    if(c=='B') return dp[{i,c}]=f(n,'S',i+1)%mod;
-	    return dp[{i,c}]=(long long )((f(n,'B',i+1)%mod)+f(n,'C',i+1)%mod);
+	    return dp[{i,c}]=(long long )((f(n,'B',i+1)%mod)+f(n,'S',i+1)%mod);
 	}
 	int TotalWays(int N)
 	{
