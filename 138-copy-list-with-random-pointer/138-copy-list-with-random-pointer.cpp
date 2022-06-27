@@ -17,45 +17,31 @@ public:
 class Solution {
 public:
     Node* copyRandomList(Node* head) {
-        Node *iter=head,*front=head;
-        
-        // First round make copy of each node and link them together side-by-side in a single list
-        while(iter){
-            front=iter->next;
-            Node *copy=new Node(iter->val);
-            iter->next=copy;
-            copy->next=front;
-            iter=front;
+        Node *cur=head,*nxt;
+        while(cur){
+            nxt=cur->next;
+            Node *naya=new Node(cur->val);
+            naya->next=nxt;
+            cur->next=naya;
+            cur=nxt;
         }
-        
-        // Second round: assign random pointers for the copy nodes 
-        
-        iter=head;
-        while(iter){
-            if(iter->random){
-                iter->next->random=iter->random->next;
+        cur=head;
+        while(cur){
+            if(cur->random){
+                cur->next->random=cur->random->next;
             }
-            iter=iter->next->next;
+            cur=cur->next->next;
         }
-        
-        // Third round: restore the original list and extract the copy list
-        
-        iter=head;
-        Node *pseudoHead=new Node(0);
-        Node *copy=pseudoHead;
-        
-        while(iter){
-            front=iter->next->next;
-            
-            // extract copy
-            copy->next=iter->next;
-            
-            // restore original list
-            iter->next=front;
-            
+        Node *temp=new Node(0);
+        Node *copy=temp;
+        cur=head;
+        while(cur){
+            nxt=cur->next->next;
+            copy->next=cur->next;
             copy=copy->next;
-            iter=front;
+            cur->next=nxt;
+            cur=nxt;
         }
-        return pseudoHead->next;
+        return temp->next;
     }
 };
