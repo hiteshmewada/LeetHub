@@ -1,32 +1,40 @@
 class Solution {
 public:
     // index,count,color
-    int memo[100][100][21];
+    
     const int max_cost=1000001;
-    int findMinCost(vector<int>& houses, vector<vector<int>>& cost, int target,int curIndex, int neighborhoodCount, int prevHouseColor){
-        if(curIndex==houses.size()){
-            return neighborhoodCount==target?0:max_cost;
+    
+    int minCost(vector<int>& houses, vector<vector<int>>& cost, int m, int n, int target) {
+        int memo[m][target+1][n];
+        memset(memo,max_cost,sizeof(memo));
+        for(int color=1;color<=n;color++){
+            if(houses[0]==color) memo[0][1][color-1]=0;
+            else if(!houses[0])
+                memo[0][1][color-1]=cost[0][color-1];
         }
-        if(neighborhoodCount>target) return max_cost;
-        if(memo[curIndex][neighborhoodCount][prevHouseColor]!=-1)
-            return memo[curIndex][neighborhoodCount][prevHouseColor];
-        int minCost=max_cost;
-        if(houses[curIndex]){
-            int newNeighborHoodCount=neighborhoodCount+(houses[curIndex]!=prevHouseColor); minCost=findMinCost(houses,cost,target,curIndex+1,newNeighborHoodCount,houses[curIndex]);
-        }
-        else{
-            int totalColors=cost[0].size();
-            for(int color=1;color<=totalColors;color++){
-                int newNeighborHoodCount=neighborhoodCount+(color!=prevHouseColor); 
-                int currCost=cost[curIndex][color-1] + findMinCost(houses,cost,target,curIndex+1,newNeighborHoodCount,color);
-                minCost=min(minCost,currCost);
+        for(int house=1;house<m;house++){
+            for(int neighborhoods=1;neighborhoods<=min(target,house+1);neighborhoods++){
+                for(int color=1;color<=n;color++){
+                    if(houses[house] and color!=houses[house]) continue;
+                   int curCost=max_cost;
+                    for(int prevColor=1;prevColor<=n;prevColor++){
+                        if(prevColor!=color){
+                            curCost=min(curCost,memo[house-1][neighborhoods-1][prevColor-1]);
+                        }
+                        else{
+                            curCost=min(curCost,memo[house-1][neighborhoods][prevColor-1]);
+                        }
+                    }
+                    // cost of painting house
+                    int costToPaint=houses[house]?0:cost[house][color-1];
+                    memo[house][neighborhoods][color-1]=curCost+costToPaint;
+                 }
             }
         }
-        return memo[curIndex][neighborhoodCount][prevHouseColor]=minCost;
-    }
-    int minCost(vector<int>& houses, vector<vector<int>>& cost, int m, int n, int target) {
-        memset(memo,-1,sizeof(memo));
-        int ans=findMinCost(houses,cost,target,0,0,0);
-        return ans==max_cost?-1:ans;
+        int minCost=max_cost;
+        for(int color=1;color<=n;color++){
+            minCost=min(minCost,memo[m-1][target][color-1]);
+        }
+        return minCost==max_cost?-1:minCost;
     }
 };
