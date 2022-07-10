@@ -14,3 +14,18 @@ memset(dp,-1,sizeof(dp));
 return min(rec(0,cost),rec(1,cost));
 }
 };
+​
+Bottom Up
+​
+class Solution {
+public:
+int minCostClimbingStairs(vector<int>& cost) {
+int dp[1001]={-1};
+int n=cost.size();
+for(int i=0;i<n;i++){
+if(i<2) dp[i]=cost[i];
+else dp[i]=cost[i]+min(dp[i-1],dp[i-2]);
+}
+return min(dp[n-1],dp[n-2]);
+}
+};
