@@ -1,21 +1,26 @@
 class Solution {
 public:
-    int dp[52][52][52];
+    
     int M=1000000007;
-    int solve(int m, int n, int maxMove, int startRow, int startColumn){
-        if(startRow<0 or startRow>=m or startColumn<0 or startColumn>=n)            return 1;
-        if(maxMove==0) return 0;
-        if(dp[startRow][startColumn][maxMove]!=-1) 
-            return dp[startRow][startColumn][maxMove]%M; 
-        return dp[startRow][startColumn][maxMove]=
-            ((solve(m,n,maxMove-1,startRow+1,startColumn)%M+
-            solve(m,n,maxMove-1,startRow-1,startColumn)%M)%M+
-            (solve(m,n,maxMove-1,startRow,startColumn-1)%M+
-            solve(m,n,maxMove-1,startRow,startColumn+1)%M)%M)%M;
-    }
-    int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
-       // vector<vector<vector<int>>>dp(startRow,vector<vector<int>>(startColumn,vector<int>(maxMove,-1)));
-        memset(dp,-1,sizeof(dp));
-        return solve(m,n,maxMove,startRow,startColumn);
+    int findPaths(int m, int n, int N, int x, int y) {
+        vector<vector<int>>dp(m,vector<int>(n,0));
+        dp[x][y]=1;
+        int cnt=0;
+        for(int moves=1;moves<=N;moves++){
+            vector<vector<int>>temp(m,vector<int>(n,0));
+            for(int i=0;i<m;i++){
+                for(int j=0;j<n;j++){
+                    if(i==m-1) cnt=(cnt+dp[i][j])%M;
+                    if(j==n-1) cnt=(cnt+dp[i][j])%M;
+                    if(i==0) cnt=(cnt+dp[i][j])%M;
+                    if(j==0) cnt=(cnt+dp[i][j])%M;
+                    temp[i][j]=(((i>0 ? dp[i-1][j] : 0) +                       (j>0 ? dp[i][j-1] : 0))%M + 
+                    ((i<m-1 ? dp[i+1][j] : 0) +                                   (j<n-1 ? dp[i][j+1] : 0))%M
+                    ) %M;
+                }
+            }
+            dp=temp;
+        }
+        return cnt;
     }
 };
