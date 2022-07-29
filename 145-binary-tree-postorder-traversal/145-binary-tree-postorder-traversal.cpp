@@ -12,14 +12,24 @@
 class Solution {
 public:
     vector<int>ans;
-    void solve(TreeNode* root){
-        if(!root) return ;
-        solve(root->left);
-        solve(root->right);
-        ans.push_back(root->val);
-    }
+    
     vector<int> postorderTraversal(TreeNode* root) {
-        solve(root);
+        stack<TreeNode*>st;
+        stack<TreeNode*>st2;
+        if(!root) return  ans;
+        st.push(root);
+        while(st.size()){
+            
+            root=st.top();
+            st.pop();
+            st2.push(root);
+            if(root->left!=NULL) st.push(root->left);
+            if(root->right!=NULL) st.push(root->right);
+        }
+        while(st2.size()){
+            ans.push_back(st2.top()->val);
+            st2.pop();
+        }
         return ans;
     }
 };
