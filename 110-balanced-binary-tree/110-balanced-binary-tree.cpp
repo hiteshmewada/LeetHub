@@ -11,30 +11,17 @@
  */
 class Solution {
 public:
-    bool fun(TreeNode* root,int l,int r){
-        if(!root) return  true;
-        fun(root->left,l+1,r);
-        fun(root->right,l,r);
-        if(abs(l-r)<=1) return true;
-        return false;
-    }
     int rec(TreeNode* root){
         if(!root) return 0;
-        return 1+max(rec(root->left),rec(root->right));
-    }
-    int recr(TreeNode* root){
-        if(!root) return 0;
-        return 1+rec(root->right);
+        int left=rec(root->left);
+        if(left==-1) return -1;
+        int right=rec(root->right);
+        if(right==-1) return -1;
+        if(abs(left-right)>1) return -1;
+        return 1+max(left,right);
     }
     bool isBalanced(TreeNode* root) {
         if(!root) return true;
-        // int l=fun(root->left,0);
-        // int r=fun(root->right,0);
-        // if(abs(l-r)<=1) return true;
-        // return false;
-        int l=rec(root->left);
-        int r=rec(root->right);
-        if(abs(l-r)<=1 and isBalanced(root->left) and isBalanced(root->right)) return true;
-        return false;
+        return rec(root)!=-1;
     }
 };
