@@ -11,27 +11,22 @@
  */
 class Solution {
 public:
-    int preorderIndex;
-    
-    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        map<int,int>mp;
-        for(int i=0;i<preorder.size();i++) 
-            mp[inorder[i]]=i;
-       TreeNode* root= arrayToTree(preorder,0,preorder.size()-1,
-                           inorder,0,inorder.size()-1,mp);
+    int ind;
+    map<int,int>mp;
+    TreeNode* arrToTree(vector<int>& preorder, int l, int r){
+        if(l>r) return NULL;
+        int val=preorder[ind++];
+        TreeNode *root=new TreeNode(val);
+        root->left=arrToTree(preorder,l,mp[val]-1);
+        root->right=arrToTree(preorder,mp[val]+1,r);
         return root;
     }
-    TreeNode* arrayToTree(vector<int>& preorder, int preStart, int preEnd,
-                          vector<int>&inorder, int inStart, int inEnd,
-                          map<int,int>&mp){
-        if(preStart>preEnd or inStart>inEnd) return NULL;
-        TreeNode *root=new TreeNode(preorder[preStart]);
-        int inRoot=mp[root->val];
-        int numsLeft=inRoot-inStart;
-        root->left=arrayToTree(preorder,preStart+1,preStart+numsLeft, 
-                               inorder, inStart, inRoot-1, mp);
-        root->right=arrayToTree(preorder,preStart+1+numsLeft,preEnd, 
-                               inorder, inRoot+1, inEnd, mp);
-        return root;
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        ind=0;
+        int n=inorder.size();
+        for(int i=0;i<n;i++){
+            mp[inorder[i]]=i;
+        }
+        return arrToTree(preorder,0,preorder.size()-1);
     }
 };
