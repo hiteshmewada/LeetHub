@@ -14,15 +14,16 @@ public:
     
     void flatten(TreeNode* root) {
         if(!root) return;
-        stack<TreeNode*>st;
-        st.push(root);
-        while(st.size()){
-            root=st.top();
-            st.pop();
-            if(root->right)  st.push(root->right);
-            if(root->left)  st.push(root->left);
-            if(st.size()) root->right=st.top();
-            root->left=NULL;
+        TreeNode *cur=root;
+        while(cur){
+            if(cur->left){
+                TreeNode *pre=cur->left;
+                while(pre->right) pre=pre->right;
+                pre->right=cur->right;
+                cur->right=cur->left;
+                cur->left=NULL;
+            }
+            cur=cur->right;
         }
     }
 };
