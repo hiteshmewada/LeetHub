@@ -18,23 +18,20 @@ public:
 
 class Solution {
 public:
+    void fun(Node* root){
+        if(!root) return ;
+        if(root->left){
+            root->left->next=root->right;
+        }
+        if(root->next and root->right){
+            root->right->next=root->next->left;
+        }
+        fun(root->left);
+        fun(root->right);
+    }
     Node* connect(Node* root) {
         if(!root) return root;
-        queue<Node*>q;
-        q.push(root);
-        Node *ans=root;
-        while(q.size()){
-            Node *temp=NULL;
-            int n=q.size();
-            while(n--){
-                root=q.front();
-                q.pop();
-                root->next=temp;
-                temp=root;
-                if(root->right) q.push(root->right);
-                if(root->left) q.push(root->left);
-            }
-        }
-        return ans;
+        fun(root);
+        return root;
     }
 };
