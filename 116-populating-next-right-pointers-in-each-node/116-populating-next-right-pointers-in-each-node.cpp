@@ -18,20 +18,18 @@ public:
 
 class Solution {
 public:
-    void fun(Node* root){
-        if(!root) return ;
-        if(root->left){
-            root->left->next=root->right;
-        }
-        if(root->next and root->right){
-            root->right->next=root->next->left;
-        }
-        fun(root->left);
-        fun(root->right);
-    }
     Node* connect(Node* root) {
         if(!root) return root;
-        fun(root);
-        return root;
+        auto head=root;
+        for(;root;root=root->left){
+            for(auto cur=root;cur;cur=cur->next){
+                if(cur->left){
+                    cur->left->next=cur->right;
+                    if(cur->next)
+                        cur->right->next=cur->next->left;
+                }
+            }
+        }
+        return head;
     }
 };
