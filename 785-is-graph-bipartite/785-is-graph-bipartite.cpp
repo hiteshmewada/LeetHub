@@ -1,19 +1,13 @@
 class Solution {
 public:
-    bool checkBfs(vector<vector<int>>& graph, int cur, vector<int>&col){
-        queue<int>q;
-        q.push(cur);
-        col[cur]=1;
-        while(q.size()){
-            int a=q.front();
-            q.pop();
-            for(auto x:graph[a]){
-                if(col[x]==-1) {
-                    col[x]=1-col[a];
-                    q.push(x);
-                }
-                else if(col[x]==col[a]) return false;
+    bool checkDfs(vector<vector<int>>& graph, int cur, vector<int>&col){
+        if(col[cur]==-1) col[cur]=1;
+        for(auto x:graph[cur]){
+            if(col[x]==-1) {
+                col[x]=1-col[cur];
+                if(!checkDfs(graph,x,col)) return false;
             }
+            else if(col[x]==col[cur]) return false;
         }
         return true;
     }
@@ -22,7 +16,7 @@ public:
         vector<int>col(n,-1);
         for(int i=0;i<n;i++){
             if(col[i]==-1){
-                if(!checkBfs(graph,i,col)) return false;
+                if(!checkDfs(graph,i,col)) return false;
             }
         }
         return true;
