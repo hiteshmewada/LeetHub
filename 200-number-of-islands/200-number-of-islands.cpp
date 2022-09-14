@@ -1,5 +1,14 @@
 class Solution {
 public:
+    void eraseByDfs(vector<vector<char>>& grid, int i, int j){
+        int n=grid.size(),m=grid[0].size();
+        if(i<0 or i>=n or j<0 or j>=m or grid[i][j]=='0') return;
+        grid[i][j]='0';
+        eraseByDfs(grid, i+1,j);
+        eraseByDfs(grid, i,j+1);
+        eraseByDfs(grid, i,j-1);
+        eraseByDfs(grid, i-1,j);
+    }
     int numIslands(vector<vector<char>>& grid) {
         int n=grid.size(),m=grid[0].size();
         vector<int>index={0,1,0,-1,0};
@@ -8,24 +17,7 @@ public:
             for(int j=0;j<m;j++){
                 if(grid[i][j]=='1'){
                     ans++;
-                    grid[i][j]='0';
-                    queue<pair<int,int>>q;
-                    q.push({i,j});
-                    while(q.size()){
-                        int row=q.front().first;
-                        int col=q.front().second;
-                        q.pop();
-                        for(int del=0;del<4;del++){
-                        
-                                int newr=row+index[del];
-                                int newc=col+index[del+1];
-                                if(newr>=0 and newr<n and newc>=0  and                                      newc<m and grid[newr][newc]=='1'){
-                                    q.push({newr,newc});
-                                    grid[newr][newc]='0';
-                                }
-                            
-                        }
-                     }
+                    eraseByDfs(grid, i,j);
                 }
             }
         }
