@@ -1,23 +1,24 @@
 class Solution {
 public:
-    vector<int>ans;
-    int dp[101][101];
     vector<int> findBall(vector<vector<int>>& grid) {
-        int n=grid[0].size();
-        ans.resize(n,0);
-        memset(dp,-1,sizeof(dp));
-        for(int i=0;i<n;i++){
-            ans[i]=findBallDrop(0,i,grid);
+        int m=grid.size(),n=grid[0].size();
+        int dp[101][101];
+        memset(dp,0,sizeof(dp));
+        vector<int>ans;
+        for(int i=m;i>=0;i--){
+            for(int j=0;j<n;j++){
+                if(i==m){
+                    dp[i][j]=j;
+                    continue;
+                }
+                int col=j+grid[i][j];
+                if(col<0 or col>=n or grid[i][j]!=grid[i][col]) 
+                    dp[i][j]=-1;
+                else dp[i][j]=dp[i+1][col];
+                if(i==0)
+                    ans.push_back(dp[i][j]);
+            }
         }
         return ans;
-    }
-    int findBallDrop(int r, int c, vector<vector<int>>& grid){
-        // base case
-        if(r==grid.size()) return c;
-        int nxtCol=c+grid[r][c];
-        // if(dp[r][c]!=-1) return dp[r][c];
-        if(nxtCol<0 or nxtCol>grid[0].size()-1 or grid[r][c]!=grid[r][nxtCol]) return -1;
-        if(dp[r][c]!=-1) return dp[r][c];
-        return dp[r][c]=findBallDrop(r+1,nxtCol,grid);
     }
 };
