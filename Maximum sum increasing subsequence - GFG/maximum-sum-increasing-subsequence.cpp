@@ -7,27 +7,27 @@ class Solution{
 		
 
 	public:
-	int dp[1002][1002];
-	int ans=0;
-	int f(int ind,int pre,int arr[],int n){
-	    if(ind==n) return 0;
-	    int val=0;
-	    if(pre!=-1 and dp[ind][pre]!=-1) {
-	        return dp[ind][pre];
-	    }
-	    if(pre==-1 or arr[ind]>arr[pre]){
-	        val=max(val,arr[ind]+f(ind+1,ind,arr,n));
-	    }
-	    val=max(val,f(ind+1,pre,arr,n));
-	    ans=max(ans,val);
-	    return dp[ind][pre]=val;
-	}
+// 	int dp[1002][1002];
+// 	int ans=0;
+	
 	int maxSumIS(int arr[], int n)  
 	{  
 	    // Your code goes here
-	    memset(dp,-1,sizeof(dp));
-	     f(0,-1,arr,n);
-	     return ans;
+	    
+	    vector<int>next(n+1,0),cur(n+1,0);
+	   // memset(dp,0,sizeof(dp));
+	    for(int i=n-1;i>=0;i--){
+	        for(int pre=i-1;pre>=-1;pre--){
+	             int val=next[pre+1];
+        	    if(pre==-1 or arr[i]>arr[pre]){
+        	        val=max(val,arr[i]+next[i+1]);
+        	    }
+	            cur[pre+1]=val;
+	        }
+	        next=cur;
+	    }
+	     
+	     return next[0];
 	}  
 };
 
