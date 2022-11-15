@@ -6,16 +6,22 @@ public:
         int n=c.size();
          int dp[n+1][amt+1];
         memset(dp,0,sizeof(dp));
-        for(int i=0;i<=amt;i++) dp[0][i]=1e9;
-        for(int i=0;i<=n;i++) dp[i][0]=0;
-        for(int i=1;i<=n;i++){
-            for(int j=1;j<=amt;j++){
-                if(j-c[i-1]>=0)
-               dp[i][j]=min(1+dp[i][j-c[i-1]],dp[i-1][j]);
-                else dp[i][j]=dp[i-1][j];
+        vector<int>pre(amt+1,0);
+        for(int i=0;i<=n;i++){
+            vector<int>cur(amt+1,0);
+            for(int j=0;j<=amt;j++){
+                if(i==0) cur[j]=1e9;
+                else if(j==0) cur[j]=0;
+                else{
+                    if(j-c[i-1]>=0)
+                   cur[j]=min(1+cur[j-c[i-1]],pre[j]);
+                    else cur[j]=pre[j];
+                }
+                
             }
+            pre=cur;
         }
-        if(dp[n][amt]>=1e9) return -1;
-       return  dp[n][amt];
+        if(pre[amt]>=1e9) return -1;
+       return  pre[amt];
     }
 };
