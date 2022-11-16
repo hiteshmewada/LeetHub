@@ -6,22 +6,8 @@ public:
         for(auto x:nums) sum+=x;
         if(sum%2) return false;
         sum/=2;
-        // int dp[n][sum+1];
-        vector<int>pre(sum+1,-1);
-        for(int i=0;i<n;i++){
-            vector<int>cur(sum+1,-1);
-            for(int j=0;j<=sum;j++){
-                if(j==0) cur[j]=true;
-                else if(i==0) cur[j]=(nums[0]==j);
-                else{
-                    bool take=false;
-                    if(nums[i]<=j) take=pre[j-nums[i]];
-                    bool notTake=pre[j];
-                    cur[j]=(take or notTake);
-                }
-            }
-            pre=cur;
-        }
-        return pre[sum];
+        bitset<10001>dp(1); // dp[0]=1;
+        for(auto x:nums) dp|= (dp<<x);
+        return dp[sum];
     }
 };
