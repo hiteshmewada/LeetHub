@@ -1,4 +1,4 @@
-// { Driver Code Starts
+//{ Driver Code Starts
 // Program to find the maximum profit job sequence from a given array 
 // of jobs with deadlines and profits 
 #include<bits/stdc++.h>
@@ -13,7 +13,7 @@ struct Job
 }; 
 
 
- // } Driver Code Ends
+// } Driver Code Ends
 /*
 struct Job 
 { 
@@ -30,39 +30,28 @@ class Solution
     vector<int> JobScheduling(Job arr[], int n) 
     { 
         // your code here
-        // vector<pair<int,int>>v;
-        // for(int i=0;i<n;i++){
-        //     v.push_back({arr[i].dead,arr[i].profit});
-        // }
-        sort(arr,arr+n,[&](Job a,Job b){
-           return a.profit>b.profit;
+        sort(arr,arr+n,[&](Job a, Job b){
+            return a.profit>b.profit;
         });
-        int last=-1,ans=0,cnt=0;
-        int mx_dead=arr[0].dead;
-        for(int i=1;i<n;i++) mx_dead=max(mx_dead,arr[i].dead);
-        int job_slot[mx_dead+1];
-        memset(job_slot,-1,sizeof(job_slot));
-        
+        int ans=0,cnt=0;
+        int mx=arr[0].dead;
+        for(int i=1;i<n;i++) mx=max(mx,arr[i].dead);
+        vector<int>dp(mx+1,-1);
         for(int i=0;i<n;i++){
             for(int j=arr[i].dead;j>0;j--){
-                if(job_slot[j]==-1){
-                    job_slot[j]=i;
-                    cnt++;
+                if(dp[j]==-1){
+                    dp[j]=i;
                     ans+=arr[i].profit;
+                    cnt++;
                     break;
                 }
             }
-            // if(v[i].first>last){
-            //     last=v[i].first;
-            //     ans+=v[i].second;
-            //     cnt++;
-            // }
         }
         return {cnt,ans};
     } 
 };
 
-// { Driver Code Starts.
+//{ Driver Code Starts.
 // Driver program to test methods 
 int main() 
 { 
@@ -94,4 +83,5 @@ int main()
 }
 
 
-  // } Driver Code Ends
+
+// } Driver Code Ends
